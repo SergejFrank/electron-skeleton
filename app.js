@@ -49,7 +49,9 @@ function createWindow() {
     }));
 
     // Open the DevTools.
-    win.webContents.openDevTools();
+    if(conf.debug){
+        win.webContents.openDevTools();
+    }
 
 
     win.once('ready-to-show', () => {
