@@ -1,7 +1,7 @@
 const {app, BrowserWindow, ipcMain} = require('electron');
 const path = require('path');
 const url = require('url');
-const conf = require('../conf');
+const conf = require('./conf');
 
 let win;
 
@@ -27,9 +27,8 @@ app.on('activate', () => {
 function reloadOnFileChange(){
     try {
         var bs = require("browser-sync").create();
-
-        bs.watch(__dirname+"/static/**/*", function (event, file) {
-            if (event == "change" && file.match(/(.scss|.js)$/g)) {
+        bs.watch(__dirname+"/src/**/*", function (event, file) {
+            if (event == "change" && file.match(/(.css|.scss|.js|.html)$/g)) {
                 win.reload();
             }
         });
@@ -38,14 +37,13 @@ function reloadOnFileChange(){
     }
 }
 
-
 function createWindow() {
     // Create the browser window.
     win = new BrowserWindow({width: 800, height: 600,show: false});
     win.setMenu(null);
     // and load the index.html of the app.
     win.loadURL(url.format({
-        pathname: path.join(__dirname, 'index.html'),
+        pathname: path.join(__dirname, 'src/index.html'),
         protocol: 'file:',
         slashes: true
     }));
@@ -78,8 +76,7 @@ var listen = function(topic,callback){
 
 var send = function(topic,msg){
     win.webContents.send(topic, msg);
-}
-
+};
 
 
 var initialized = function(){
