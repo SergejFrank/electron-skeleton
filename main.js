@@ -5,7 +5,12 @@ const conf = require('./conf');
 
 let win;
 
-app.on('ready', createWindow);
+app.on('ready', function() {
+    if(conf.debug){
+        reloadOnFileChange()
+    }
+    createWindow();
+});
 
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
@@ -15,9 +20,24 @@ app.on('window-all-closed', () => {
 
 app.on('activate', () => {
     if (win === null) {
-        createWindow()
+        createWindow();
     }
 });
+
+function reloadOnFileChange(){
+    try {
+        var bs = require("browser-sync").create();
+
+        bs.watch(__dirname+"/static/**/*", function (event, file) {
+            if (event == "change" && file.match(/(.scss|.js)$/g)) {
+                win.reload();
+            }
+        });
+    } catch (e) {
+        console.log(e);
+    }
+}
+
 
 function createWindow() {
     // Create the browser window.

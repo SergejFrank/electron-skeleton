@@ -1,2 +1,2 @@
 exports.msg = "HELLO WORLD";
-exports.debug = false;
+exports.debug = true;

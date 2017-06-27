@@ -2,55 +2,16 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>FlexMess</title>
-    <link rel="stylesheet" media="all" href="./static/css/style.css">
-    <link rel="stylesheet prefetch" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <title>Electron Skeleton</title>
+    <link rel="stylesheet" type="text/css" href="static/css/main.scss">
 </head>
 <body>
+
 <script>
-    window.$ = window.jQuery = require('jquery');
-    window.ipcRenderer = require('electron').ipcRenderer;
-    window.conf = {};
-    window.logEnum = {
-        LOG: 0,
-        DEBUG: 1
-    }
-
-
-    var send = function(topic,data){
-        ipcRenderer.send(topic, data);
-    };
-
-    var listen = function(topic, callback){
-        ipcRenderer.on(topic, function (event, data) {
-            log("data received on topic: "+ topic,logEnum.DEBUG);
-            callback(event,data);
-        });
-    };
-
-    var log = function(msg,type){
-        if(type == logEnum.DEBUG && !conf.debug){
-            return;
-        }else{
-            console.log(msg);
-        }
-    };
-
-    listen("conf",function(e,conf){
-        window.conf = conf;
-        initialized();
-    });
-
-    var initialized = function(){
-        console.log("ready");
-
-        listen("ping",function(e,data){
-            log(data);
-            send("ping","pong");
-        });
-
-    };
-
+    require('./static/js/main');
+    require('./static/js/init');
 </script>
+
+
 </body>
 </html>
